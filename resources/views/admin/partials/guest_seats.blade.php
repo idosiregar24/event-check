@@ -22,44 +22,32 @@
 
 {{-- Tampilan Kursi --}}
 <div class="seat-room">
-    @for ($r = 0; $r < $rows; $r++)
-        <div class="seat-row d-flex justify-content-between mb-2">
-            @for ($c = 0; $c < $columnsPerRow; $c++)
-                @php
-                    $index = $r * $columnsPerRow + $c;
-                    $guest = $guests[$index] ?? null;
-                @endphp
+    @for ($i = 0; $i < $totalSeats; $i++)
+        @php
+            $guest = $guests[$i] ?? null;
+        @endphp
 
-                @if ($guest)
-                    <div class="seat {{ $guest->status === 'hadir' ? 'seat-hadir' : 'seat-belum' }}"
-                        title="{{ $guest->name }} - {{ $guest->instansi ?? '-' }}">
-                        <span>{{ \Illuminate\Support\Str::limit($guest->name, 8) }}</span>
-                    </div>
-                @else
-                    <div class="seat seat-empty"></div>
-                @endif
-            @endfor
-        </div>
+        @if ($guest)
+            <div class="seat {{ $guest->status === 'hadir' ? 'seat-hadir' : 'seat-belum' }}"
+                title="{{ $guest->name }} - {{ $guest->instansi ?? '-' }}">
+                <span>{{ \Illuminate\Support\Str::limit($guest->name, 8) }}</span>
+            </div>
+        @else
+            <div class="seat seat-empty"></div>
+        @endif
     @endfor
 </div>
 
 <style>
-    /* Container kursi */
     .seat-room {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        gap: 6px;
         width: 100%;
     }
 
-    .seat-row {
-        display: flex;
-        justify-content: space-between; /* kursi melebar kiri-kanan */
-        flex-wrap: nowrap;
-        margin-bottom: 6px;
-    }
-
-    /* Kursi */
     .seat {
-        width: 60px;
-        height: 60px;
+        aspect-ratio: 1 / 1; /* Buat kotak sempurna */
         border-radius: 12px;
         display: flex;
         align-items: center;
@@ -76,17 +64,24 @@
     }
 
     .seat-hadir {
-        background-color: #28a745; /* hijau */
+        background-color: #28a745;
     }
 
     .seat-belum {
-        background-color: #6c757d; /* abu-abu */
+        background-color: #6c757d;
     }
 
     .seat-empty {
         background-color: #e9ecef;
         border: 2px dashed #ced4da;
         color: #555;
-        font-size: 18px;
+        font-size: 14px;
+    }
+
+    /* Layar kecil */
+    @media (max-width: 576px) {
+        .seat {
+            font-size: 10px;
+        }
     }
 </style>

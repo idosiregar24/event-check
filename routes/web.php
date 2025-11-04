@@ -56,8 +56,13 @@ Route::get('/register/{event}', [GuestController::class, 'showForm'])->name('gue
 Route::post('/register/{event}', [GuestController::class, 'store'])->name('guest.store');
 
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::get('/check', [GuestController::class, 'check'])->name('guest.check');
 Route::post('/check', [GuestController::class, 'check'])->name('guest.check');
+});
+
+// Cetak Pdf
+Route::get('/admin/events/{id}/guests/pdf', [GuestController::class, 'exportPdf'])->name('guests.pdf');
 
 Route::get('/events/{id}/guest-seats', [EventController::class, 'guestSeats'])->name('admin.events.guests_seats');
 ?>

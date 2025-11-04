@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Guest;
 use App\Models\Event;
+use App\Models\Guest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class GuestController extends Controller
 {
@@ -67,9 +69,24 @@ class GuestController extends Controller
         redirect()->route('guest.check');
     }
 
-    // Method untuk memproses pengecekan & absensi
+
     public function check(Request $request)
     {
+        // Pastikan user login
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', '❌ Anda harus login terlebih dahulu.');
+        }
+
+        $user = Auth::user();
+
+        // Pastikan hanya admin yang bisa scan
+        if ($user->role !== 'admin') {
+            return view('guest.result', [
+                'status' => 'error',
+                'message' => '❌ Anda tidak memiliki izin untuk melakukan scan absensi.',
+            ]);
+        }
+
         // Ambil token UUID dari query string
         $query = $request->query();
         $token = array_key_first($query); // misal: check?68e79... → token = 68e79...
@@ -112,6 +129,21 @@ class GuestController extends Controller
             'guest' => $guest,
         ]);
     }
+
+
+public function exportPdf($id)
+{
+    $event = Event::findOrFail($id);
+    $guests = Guest::where('event_id', $id)->get();
+
+    $pdf = Pdf::loadView('admin.partials.guest_pdf', compact('event', 'guests'))
+              ->setPaper('a4', 'portrait');
+
+    return $pdf->download('Daftar_Tamu_'.$event->nama_event.'.pdf');
+}
+
+
+
 
 }
 

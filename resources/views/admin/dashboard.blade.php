@@ -27,10 +27,16 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $event->nama_event }}</td>
-                        <td>{{ $event->tanggal }}</td>
-                        <td>
+                        <td>{{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}</td>
+                        <td class="d-flex gap-1">
+                            <!-- Tombol Lihat Tamu -->
                             <a href="{{ route('admin.events.guests', $event->id) }}" class="btn btn-sm btn-primary">
                                 Lihat Tamu
+                            </a>
+
+                            <!-- Tombol Export PDF -->
+                            <a href="{{ route('guests.pdf', $event->id) }}" target="_blank" class="btn btn-sm btn-success">
+                                📝 Export PDF
                             </a>
                         </td>
                     </tr>
