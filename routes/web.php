@@ -56,7 +56,8 @@ Route::get('/register/{event}', [GuestController::class, 'showForm'])->name('gue
 Route::post('/register/{event}', [GuestController::class, 'store'])->name('guest.store');
 
 
-Route::get('/guest/check/{qr_token}', [GuestController::class, 'check'])->name('guest.check');
+Route::get('/check', [GuestController::class, 'check'])->name('guest.check');
+Route::post('/check', [GuestController::class, 'check'])->name('guest.check');
 
 Route::get('/events/{id}/guest-seats', [EventController::class, 'guestSeats'])->name('admin.events.guests_seats');
 ?>

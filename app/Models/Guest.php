@@ -18,9 +18,10 @@ class Guest extends Model
         'email',
         'instansi',
         'phone',
-        'status',   
+        'status',
         'qr_token',
         'event_id',
+        'kode_undian',
     ];
 }
 
