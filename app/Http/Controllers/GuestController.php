@@ -25,8 +25,10 @@ class GuestController extends Controller
     {
         $event = Event::findOrFail($eventId);
 
+        // VALIDASI INPUT
         $request->validate([
             'name' => 'required|string|max:255',
+
             'email' => [
                 'required',
                 'email',
@@ -34,34 +36,66 @@ class GuestController extends Controller
                     return $query->where('event_id', $event->id);
                 })
             ],
+
+            'generasi' => 'required|in:22,23,24,25,alumni',
+
+            'program_studi' => [
+                'required',
+                \Illuminate\Validation\Rule::in([
+                    // Jurusan TI
+                    'Teknik Informatika',
+                    'Sistem Informasi',
+                    'Teknologi Rekayasa Komputer',
+                    'Teknologi Rekayasa Sistem Elektronika',
+                    'Teknologi Rekayasa Jaringan Telekomunikasi',
+                    'Magister Terapan Teknik Komputer',
+
+                    // Jurusan Bisnis & Komunikasi
+                    'Akuntansi Perpajakan',
+                    'Komunikasi Digital',
+                    'Bisnis Digital',
+
+                    // Jurusan Teknik
+                    'Teknik Mesin',
+                    'Teknologi Rekayasa Mekatronika',
+                    'Teknik Elektronika'
+                ])
+            ],
+
             'instansi' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
+            'alergi_makanan' => 'nullable|string|max:255',
         ]);
 
-        // Token untuk QR unik
+
+        // GENERATE TOKEN QR
         $token = \Str::uuid()->toString();
 
-        // 🔹 Generate kode undian angka acak (misal 8 digit)
-        $kodeUndian = str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-        // 🔹 Simpan ke database
+        // SIMPAN KE DATABASE
         $guest = Guest::create([
             'name' => $request->name,
             'email' => $request->email,
             'instansi' => $request->instansi,
             'phone' => $request->phone,
+            'generasi' => $request->generasi,
+            'program_studi' => $request->program_studi,
+            'alergi_makanan' => $request->alergi_makanan,
             'qr_token' => $token,
-            'kode_undian' => $kodeUndian,
             'event_id' => $event->id,
         ]);
 
-        // 🔹 Generate QR Code (bisa isi link atau kode undian)
+
+        // GENERATE QR CODE
         $link = url('/check?' . $guest->qr_token);
         $qrCode = QrCode::size(200)->generate($link);
 
-        // 🔹 Tampilkan halaman sukses
+
+        // RETURN SUCCESS PAGE
         return view('guest.success', compact('guest', 'qrCode', 'event'));
     }
+
+
 
     // Tampilkan form absensi / cek kode undian
     public function checkForm()
@@ -131,16 +165,16 @@ class GuestController extends Controller
     }
 
 
-public function exportPdf($id)
-{
-    $event = Event::findOrFail($id);
-    $guests = Guest::where('event_id', $id)->get();
+    public function exportPdf($id)
+    {
+        $event = Event::findOrFail($id);
+        $guests = Guest::where('event_id', $id)->get();
 
-    $pdf = Pdf::loadView('admin.partials.guest_pdf', compact('event', 'guests'))
-              ->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('admin.partials.guest_pdf', compact('event', 'guests'))
+            ->setPaper('a4', 'portrait');
 
-    return $pdf->download('Daftar_Tamu_'.$event->nama_event.'.pdf');
-}
+        return $pdf->download('Daftar_Tamu_' . $event->nama_event . '.pdf');
+    }
 
 
 

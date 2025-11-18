@@ -56,21 +56,75 @@
             <form action="{{ route('guest.store', ['event' => $event->id]) }}" method="POST">
                 @csrf
 
+                <!-- Nama -->
                 <div class="mb-4">
                     <label class="form-label required">Nama Lengkap</label>
                     <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                 </div>
 
+                <!-- Email -->
                 <div class="mb-4">
                     <label class="form-label required">Email</label>
                     <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
                 </div>
 
+                <!-- Generasi -->
+                <div class="mb-4">
+                    <label class="form-label required">Generasi</label>
+                    <select name="generasi" class="form-select" required>
+                        <option value="" disabled selected>Pilih Generasi</option>
+                        <option value="22" {{ old('generasi')=='22' ? 'selected':'' }}>22</option>
+                        <option value="23" {{ old('generasi')=='23' ? 'selected':'' }}>23</option>
+                        <option value="24" {{ old('generasi')=='24' ? 'selected':'' }}>24</option>
+                        <option value="25" {{ old('generasi')=='25' ? 'selected':'' }}>25</option>
+                        <option value="alumni" {{ old('generasi')=='alumni' ? 'selected':'' }}>Alumni</option>
+
+                    </select>
+                </div>
+
+                <!-- Program Studi -->
+                <div class="mb-4">
+                    <label class="form-label required">Program Studi</label>
+                    <select name="program_studi" class="form-select" required>
+                        <option value="" disabled selected>Pilih Program Studi</option>
+
+                        <optgroup label="Jurusan Teknologi Informasi">
+                            <option>Teknik Informatika</option>
+                            <option>Sistem Informasi</option>
+                            <option>Teknologi Rekayasa Komputer</option>
+                            <option>Teknologi Rekayasa Sistem Elektronika</option>
+                            <option>Teknologi Rekayasa Jaringan Telekomunikasi</option>
+                            <option>Magister Terapan Teknik Komputer</option>
+                        </optgroup>
+
+                        <optgroup label="Jurusan Bisnis dan Komunikasi">
+                            <option>Akuntansi Perpajakan</option>
+                            <option>Komunikasi Digital</option>
+                            <option>Bisnis Digital</option>
+                        </optgroup>
+
+                        <optgroup label="Jurusan Teknik">
+                            <option>Teknik Mesin</option>
+                            <option>Teknologi Rekayasa Mekatronika</option>
+                            <option>Teknik Elektronika</option>
+                        </optgroup>
+
+                    </select>
+                </div>
+
+                <!-- Instansi -->
                 <div class="mb-4">
                     <label class="form-label">Instansi</label>
                     <input type="text" name="instansi" class="form-control" value="{{ old('instansi') }}">
                 </div>
 
+                <!-- Alergi -->
+                <div class="mb-4">
+                    <label class="form-label">Alergi Makanan</label>
+                    <input type="text" name="alergi_makanan" class="form-control" placeholder="Kosongkan jika tidak ada" value="{{ old('alergi_makanan') }}">
+                </div>
+
+                <!-- No HP -->
                 <div class="mb-4">
                     <label class="form-label">No HP</label>
                     <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
