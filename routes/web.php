@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\CheckinController;
 use App\Http\Controllers\SuperAdminController;
 
 Route::get('/', function () {
@@ -57,12 +58,25 @@ Route::post('/register/{event}', [GuestController::class, 'store'])->name('guest
 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-Route::get('/check', [GuestController::class, 'check'])->name('guest.check');
-Route::post('/check', [GuestController::class, 'check'])->name('guest.check');
+    Route::get('/check', [GuestController::class, 'check'])->name('guest.check');
+    Route::post('/check', [GuestController::class, 'check'])->name('guest.check');
 });
 
 // Cetak Pdf
 Route::get('/admin/events/{id}/guests/pdf', [GuestController::class, 'exportPdf'])->name('guests.pdf');
-
+Route::get('/admin/events/{id}/qr', [GuestController::class, 'generateQr'])
+    ->name('generate.qr');
 Route::get('/events/{id}/guest-seats', [EventController::class, 'guestSeats'])->name('admin.events.guests_seats');
+
+// Form check-in (setelah scan QR)
+Route::get('/checkin/form', [CheckinController::class, 'showForm'])->name('checkin.form');
+
+
+// Submit form untuk ubah status
+Route::post('/checkin/submit', [CheckinController::class, 'submit'])->name('checkin.submit');
+
+Route::post('/checkin/cari-nim', [CheckinController::class, 'cariNim'])->name('checkin.cariNim');
+Route::post('/checkin/submit', [CheckinController::class, 'submit'])->name('checkin.submit');
+
+
 ?>

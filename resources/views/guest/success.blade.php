@@ -40,12 +40,12 @@
         <h2 style="color:#27ae60; margin-bottom:5px;">✓ Registrasi Berhasil</h2>
         <p style="margin-top:0;">Terima kasih, {{ $guest->name }}!</p>
 
-        <p>Berikut adalah QR Code yang harus dibawa saat acara:</p>
-        <div>{!! $qrCode !!}</div>
-
-        <p style="margin-top:20px;"><strong>Simpan QR Code ini sebagai bukti registrasi.</strong></p>
-
         <hr style="margin:25px 0;">
+
+        <a href="{{ asset('documents/tata_ibadah.pdf') }}" download="Tata-Ibadah.pdf" class="btn btn-primary">
+  ⤓ Unduh Tata Ibadah
+</a>
+
 
         <p style="margin-top:20px; font-size:13px; color:#888;">
             Panitia Natal PMK PCR 2025

@@ -22,10 +22,17 @@ class Event extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'id');
+    }
+
+
     // Relasi many-to-many ke User (admin)
     public function admins()
     {
-        return $this->belongsToMany(User::class, 'event_admins'); // nama pivot table
+        return $this->belongsToMany(User::class, 'event_admins');
     }
 
     // Relasi one-to-many ke guest

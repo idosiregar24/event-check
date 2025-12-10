@@ -79,6 +79,7 @@ class GuestController extends Controller
             'instansi' => $request->instansi,
             'phone' => $request->phone,
             'generasi' => $request->generasi,
+            'status' => 'Hadir',
             'program_studi' => $request->program_studi,
             'alergi_makanan' => $request->alergi_makanan,
             'qr_token' => $token,
@@ -96,11 +97,20 @@ class GuestController extends Controller
     }
 
 
-
-    // Tampilkan form absensi / cek kode undian
     public function checkForm()
     {
         redirect()->route('guest.check');
+    }
+
+    public function generateQr($guest_id)
+    {
+        $guest = Guest::findOrFail($guest_id);
+
+        $url = route('checkin.form', ['tamu' => $guest->id]);
+
+        $qrCode = QrCode::size(250)->generate($url);
+
+        return view('admin.event-qr', compact('guest', 'qrCode'));
     }
 
 
@@ -165,6 +175,8 @@ class GuestController extends Controller
     }
 
 
+
+
     public function exportPdf($id)
     {
         $event = Event::findOrFail($id);
@@ -175,8 +187,6 @@ class GuestController extends Controller
 
         return $pdf->download('Daftar_Tamu_' . $event->nama_event . '.pdf');
     }
-
-
 
 
 }

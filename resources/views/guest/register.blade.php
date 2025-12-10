@@ -118,18 +118,6 @@
                     <input type="text" name="instansi" class="form-control" value="{{ old('instansi') }}">
                 </div>
 
-                <!-- Alergi -->
-                <div class="mb-4">
-                    <label class="form-label">Alergi Makanan</label>
-                    <input type="text" name="alergi_makanan" class="form-control" placeholder="Kosongkan jika tidak ada" value="{{ old('alergi_makanan') }}">
-                </div>
-
-                <!-- No HP -->
-                <div class="mb-4">
-                    <label class="form-label">No HP</label>
-                    <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
-                </div>
-
                 <button type="submit" class="btn btn-primary w-100">Daftar</button>
             </form>
 

@@ -1,49 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
+
 <body>
-<div class="container mt-4">
-    <h3>Dashboard Admin</h3>
+    <div class="container mt-4">
+        <h3>Dashboard Admin</h3>
 
-    @if ($events->isEmpty())
-        <p class="text-muted">Belum ada event yang ditangani.</p>
-    @else
-        <table class="table table-bordered align-middle">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nama Event</th>
-                    <th>Tanggal</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($events as $index => $event)
+        @if ($events->isEmpty())
+            <p class="text-muted">Belum ada event yang ditangani.</p>
+        @else
+            <table class="table table-bordered align-middle">
+                <thead>
                     <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $event->nama_event }}</td>
-                        <td>{{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}</td>
-                        <td class="d-flex gap-1">
-                            <!-- Tombol Lihat Tamu -->
-                            <a href="{{ route('admin.events.guests', $event->id) }}" class="btn btn-sm btn-primary">
-                                Lihat Tamu
-                            </a>
-
-                            <!-- Tombol Export PDF -->
-                            <a href="{{ route('guests.pdf', $event->id) }}" target="_blank" class="btn btn-sm btn-success">
-                                📝 Export PDF
-                            </a>
-                        </td>
+                        <th>#</th>
+                        <th>Nama Event</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-</div>
+                </thead>
+                <tbody>
+                    @foreach ($events as $index => $event)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $event->nama_event }}</td>
+                            <td>{{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}</td>
+                            <td class="d-flex gap-1">
+                                <!-- Tombol Lihat Tamu -->
+                                <a href="{{ route('admin.events.guests', $event->id) }}" class="btn btn-sm btn-primary">
+                                    Lihat Tamu
+                                </a>
+
+                                <!-- Tombol Export PDF -->
+                                <a href="{{ route('guests.pdf', $event->id) }}" target="_blank"
+                                    class="btn btn-sm btn-success">
+                                    📝 Export PDF
+                                </a>
+                                <a href="{{ route('generate.qr', $event->id) }}" class="btn btn-sm btn-warning">
+                                    🔳 Generate QR
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
 </body>
+
 </html>
