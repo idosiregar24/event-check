@@ -19,7 +19,7 @@
                 {!! $qrCode !!}
             </div>
 
-            <a href="{{ route('downloadQR', $id) }}" class="btn btn-success w-100">
+            <a href="{{ route('superadmin.downloadQR', $id) }}" class="btn btn-success w-100">
                 ⤓ Download PNG
             </a>
 
