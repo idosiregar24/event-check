@@ -25,6 +25,13 @@ Route::middleware(['auth', 'role:super_admin'])
         // Dashboard utama super admin
         Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
 
+        Route::get('/generateQr/{id}', [SuperAdminController::class, 'generateQR'])->name('generateQR');
+        Route::get('/download-qr/{id}', [SuperAdminController::class, 'downloadQR'])->name('downloadQR');
+
+
+
+        Route::get('/event/{id}/qr', [SuperAdminController::class, 'showQR'])->name('qr.show');
+
         // CRUD Event
         Route::resource('/events', SuperAdminController::class)->except(['show']);
 

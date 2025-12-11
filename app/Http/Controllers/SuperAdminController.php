@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class SuperAdminController extends Controller
 {
@@ -52,7 +53,7 @@ class SuperAdminController extends Controller
         return redirect()->route('superadmin.events.index')->with('success', 'Event berhasil dibuat.');
     }
 
-    // Form edit
+    // Form edit event
     public function edit(Event $event)
     {
         return view('superadmin.events.edit', compact('event'));
@@ -73,7 +74,6 @@ class SuperAdminController extends Controller
 
         // Upload file baru jika ada
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
             if ($event->gambar && file_exists(public_path('uploads/event/' . $event->gambar))) {
                 unlink(public_path('uploads/event/' . $event->gambar));
             }
@@ -84,7 +84,6 @@ class SuperAdminController extends Controller
             $event->gambar = $fileName;
         }
 
-        // Update data lain
         $event->update([
             'nama_event' => $request->nama_event,
             'tanggal' => $request->tanggal,
@@ -95,6 +94,46 @@ class SuperAdminController extends Controller
 
         return redirect()->route('superadmin.dashboard')->with('success', 'Event berhasil diperbarui.');
     }
+
+
+    // ===============================
+    //      QR CODE SECTION
+    // ===============================
+
+    // Halaman menampilkan QR
+    public function generateQR($id)
+    {
+        $url = url('/register/' . $id);
+
+        // Generate SVG string (aman tanpa imagick)
+        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
+            ->size(300)
+            ->errorCorrection('H')
+            ->generate($url);
+
+        return view('superadmin.showQR', compact('qrCode', 'url', 'id'));
+    }
+
+
+    // Download PNG
+    public function downloadQR($id)
+    {
+        $url = url('/register/' . $id);
+
+        $qr = QrCode::format('png')
+            ->size(500)
+            ->errorCorrection('H')
+            ->generate($url);
+
+        return response($qr)
+            ->header('Content-Type', 'image/png')
+            ->header('Content-Disposition', 'attachment; filename="QR_Event_' . $id . '.png"');
+    }
+
+
+    // ===============================
+    //     ADMIN EVENT SECTION
+    // ===============================
 
     public function assignAdminForm($id)
     {
@@ -115,12 +154,10 @@ class SuperAdminController extends Controller
 
         $event = Event::findOrFail($eventId);
 
-        // Jika pilih admin lama
         if ($request->filled('admin_id')) {
             $event->admins()->syncWithoutDetaching($request->admin_id);
         }
 
-        // Jika buat admin baru
         if ($request->filled(['name', 'email', 'password'])) {
             $admin = User::create([
                 'name' => $request->name,
@@ -135,8 +172,6 @@ class SuperAdminController extends Controller
         return redirect()->route('superadmin.events.index')->with('success', 'Admin berhasil ditambahkan ke event!');
     }
 
-
-    // Hapus event
     public function destroy(Event $event)
     {
         $event->delete();
