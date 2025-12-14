@@ -37,10 +37,12 @@ class GuestController extends Controller
                 })
             ],
 
-            'generasi' => 'required|in:22,23,24,25,alumni',
+            'asal_tamu' => 'required|in:tamu,mahasiswa_pcr',
+
+            'generasi' => 'nullable|in:22,23,24,25,alumni',
 
             'program_studi' => [
-                'required',
+                'nullable',
                 \Illuminate\Validation\Rule::in([
                     // Jurusan TI
                     'Teknik Informatika',
@@ -52,7 +54,7 @@ class GuestController extends Controller
 
                     // Jurusan Bisnis & Komunikasi
                     'Akuntansi Perpajakan',
-                    'Komunikasi Digital',
+                    'Hubungan Masyarakat dan Komunikasi Digital',
                     'Bisnis Digital',
 
                     // Jurusan Teknik
@@ -63,25 +65,26 @@ class GuestController extends Controller
             ],
 
             'instansi' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'alergi_makanan' => 'nullable|string|max:255',
         ]);
 
 
         // GENERATE TOKEN QR
         $token = \Str::uuid()->toString();
 
+        if ($request->asal_tamu === 'tamu') {
+            $data['generasi'] = null;
+            $data['program_studi'] = null;
+        }
 
         // SIMPAN KE DATABASE
         $guest = Guest::create([
             'name' => $request->name,
             'email' => $request->email,
             'instansi' => $request->instansi,
-            'phone' => $request->phone,
             'generasi' => $request->generasi,
             'status' => 'Hadir',
+            'asal_tamu' => $request->asal_tamu,
             'program_studi' => $request->program_studi,
-            'alergi_makanan' => $request->alergi_makanan,
             'qr_token' => $token,
             'event_id' => $event->id,
         ]);

@@ -56,6 +56,17 @@
             <form action="{{ route('guest.store', ['event' => $event->id]) }}" method="POST">
                 @csrf
 
+                <!-- Tipe Peserta -->
+                <div class="mb-4">
+                    <label class="form-label required">Asal Tamu</label>
+                    <select name="asal_tamu" id="tipe_peserta" class="form-select" required>
+                        <option value="" disabled selected>Pilih Tipe Peserta</option>
+                        <option value="mahasiswa_pcr">Mahasiswa PCR</option>
+                        <option value="tamu">Tamu</option>
+                    </select>
+                </div>
+
+
                 <!-- Nama -->
                 <div class="mb-4">
                     <label class="form-label required">Nama Lengkap</label>
@@ -69,23 +80,22 @@
                 </div>
 
                 <!-- Generasi -->
-                <div class="mb-4">
+                <div class="mb-4" id="field-generasi">
                     <label class="form-label required">Generasi</label>
-                    <select name="generasi" class="form-select" required>
+                    <select name="generasi" id="generasi" class="form-select">
                         <option value="" disabled selected>Pilih Generasi</option>
-                        <option value="22" {{ old('generasi')=='22' ? 'selected':'' }}>22</option>
-                        <option value="23" {{ old('generasi')=='23' ? 'selected':'' }}>23</option>
-                        <option value="24" {{ old('generasi')=='24' ? 'selected':'' }}>24</option>
-                        <option value="25" {{ old('generasi')=='25' ? 'selected':'' }}>25</option>
-                        <option value="alumni" {{ old('generasi')=='alumni' ? 'selected':'' }}>Alumni</option>
-
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="alumni">Alumni</option>
                     </select>
                 </div>
 
                 <!-- Program Studi -->
-                <div class="mb-4">
+                <div class="mb-4" id="field-prodi">
                     <label class="form-label required">Program Studi</label>
-                    <select name="program_studi" class="form-select" required>
+                    <select name="program_studi" id="program_studi" class="form-select">
                         <option value="" disabled selected>Pilih Program Studi</option>
 
                         <optgroup label="Jurusan Teknologi Informasi">
@@ -99,7 +109,7 @@
 
                         <optgroup label="Jurusan Bisnis dan Komunikasi">
                             <option>Akuntansi Perpajakan</option>
-                            <option>Komunikasi Digital</option>
+                            <option>Hubungan Masyarakat dan Komunikasi Digital</option>
                             <option>Bisnis Digital</option>
                         </optgroup>
 
@@ -115,7 +125,8 @@
                 <!-- Instansi -->
                 <div class="mb-4">
                     <label class="form-label">Instansi</label>
-                    <input type="text" name="instansi" class="form-control" value="{{ old('instansi') }}">
+                    <input type="text" name="instansi" id="instansi" class="form-control"
+                        value="{{ old('instansi') }}">
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Daftar</button>
@@ -124,5 +135,49 @@
         </div>
     </div>
 </body>
+<script>
+    const tipePeserta = document.getElementById('tipe_peserta');
+    const fieldGenerasi = document.getElementById('field-generasi');
+    const fieldProdi = document.getElementById('field-prodi');
+
+    const generasiInput = document.getElementById('generasi');
+    const prodiInput = document.getElementById('program_studi');
+    const instansiInput = document.getElementById('instansi');
+
+    // Default hidden
+    fieldGenerasi.style.display = 'none';
+    fieldProdi.style.display = 'none';
+
+    tipePeserta.addEventListener('change', function () {
+        if (this.value === 'mahasiswa_pcr') {
+            // Tampilkan field mahasiswa
+            fieldGenerasi.style.display = 'block';
+            fieldProdi.style.display = 'block';
+
+            generasiInput.required = true;
+            prodiInput.required = true;
+
+            // AUTO SET INSTANSI
+            instansiInput.value = 'Politeknik Caltex Riau';
+            instansiInput.readOnly = true;
+
+        } else {
+            // Sembunyikan field mahasiswa
+            fieldGenerasi.style.display = 'none';
+            fieldProdi.style.display = 'none';
+
+            generasiInput.required = false;
+            prodiInput.required = false;
+
+            generasiInput.value = '';
+            prodiInput.value = '';
+
+            // BUKA INSTANSI UNTUK TAMU
+            instansiInput.value = '';
+            instansiInput.readOnly = false;
+        }
+    });
+</script>
+
 
 </html>
