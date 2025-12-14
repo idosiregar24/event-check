@@ -21,10 +21,10 @@ LOG_DEPRECATIONS_CHANNEL=null
 LOG_LEVEL=debug
 
 DB_CONNECTION=mysql
-DB_HOST=mysql-idowork24.alwaysdata.net
+DB_HOST=mysql-event-check.alwaysdata.net
 DB_PORT=3306
-DB_DATABASE=idowork24_db
-DB_USERNAME=idowork24_db
+DB_DATABASE=event-check_db
+DB_USERNAME=446061_userdb
 DB_PASSWORD=Asdfg123@#
 
 SESSION_DRIVER=database
