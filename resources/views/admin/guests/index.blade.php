@@ -95,61 +95,34 @@
             });
         });
     </script>
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    let html5QrCode;
-    const scanModal = document.getElementById('scanModal');
+<script>
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-detail');
+    if (!btn) return;
 
-    scanModal.addEventListener('shown.bs.modal', async function() {
-        const readerElem = document.getElementById("reader");
-        const resultElem = document.getElementById("scanResult");
-        resultElem.innerHTML = "";
+    document.getElementById('m-name').textContent = btn.dataset.name;
+    document.getElementById('m-email').textContent = btn.dataset.email;
 
-        html5QrCode = new Html5Qrcode("reader");
+    document.getElementById('m-asal').textContent =
+        btn.dataset.asal === 'mahasiswa_pcr'
+            ? 'Mahasiswa PCR'
+            : 'Tamu';
 
-        try {
-            const cameras = await Html5Qrcode.getCameras();
+    document.getElementById('m-instansi').textContent =
+        btn.dataset.instansi ? btn.dataset.instansi : '-';
 
-            if (!cameras.length) {
-                resultElem.innerHTML = `<div class="alert alert-danger">Tidak ada kamera terdeteksi di perangkat ini.</div>`;
-                return;
-            }
+    document.getElementById('m-generasi').textContent =
+        btn.dataset.generasi ? btn.dataset.generasi : '-';
 
-            // Coba pakai kamera belakang kalau tersedia
-            const backCam = cameras.find(cam => cam.label.toLowerCase().includes("back")) || cameras[0];
+    document.getElementById('m-prodi').textContent =
+        btn.dataset.prodi ? btn.dataset.prodi : '-';
 
-            await html5QrCode.start(
-                { deviceId: { exact: backCam.id } },
-                {
-                    fps: 10,
-                    qrbox: 250,
-                    facingMode: "environment"
-                },
-                (decodedText) => {
-                    resultElem.innerHTML = `<div class="alert alert-success">Kode terbaca: <b>${decodedText}</b></div>`;
-                    html5QrCode.stop().then(() => html5QrCode.clear());
-                },
-                (errorMessage) => {
-                    // ignore read errors
-                }
-            );
-
-        } catch (err) {
-            console.error(err);
-            resultElem.innerHTML = `<div class="alert alert-danger">⚠️ Gagal membuka kamera.<br>Pastikan:
-            <ul class="text-start">
-                <li>Izin kamera diizinkan untuk situs ini.</li>
-                <li>Situs diakses melalui <b>HTTPS</b> atau <b>localhost</b>.</li>
-            </ul></div>`;
-        }
-    });
-
-    // Hentikan kamera saat modal ditutup
-    scanModal.addEventListener('hidden.bs.modal', function() {
-        if (html5QrCode) {
-            html5QrCode.stop().then(() => html5QrCode.clear());
-        }
-    });
+    document.getElementById('m-status').innerHTML =
+        btn.dataset.status === 'hadir'
+            ? '<span class="badge bg-success">Hadir</span>'
+            : '<span class="badge bg-secondary">Belum Hadir</span>';
 });
 </script>
+
+
 </body>
