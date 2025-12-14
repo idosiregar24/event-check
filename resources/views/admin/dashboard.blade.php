@@ -43,9 +43,6 @@
                                     class="btn btn-sm btn-success">
                                     📝 Export PDF
                                 </a>
-                                <a href="{{ route('generate.qr', $event->id) }}" class="btn btn-sm btn-warning">
-                                    🔳 Generate QR
-                                </a>
                             </td>
                         </tr>
                     @endforeach
