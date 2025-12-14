@@ -97,29 +97,19 @@
                     <label class="form-label required">Program Studi</label>
                     <select name="program_studi" id="program_studi" class="form-select">
                         <option value="" disabled selected>Pilih Program Studi</option>
-
-                        <optgroup label="Jurusan Teknologi Informasi :">
                             <option>Teknik Informatika</option>
                             <option>Sistem Informasi</option>
                             <option>Teknologi Rekayasa Komputer</option>
                             <option>Magister Terapan Teknik Komputer</option>
-                        </optgroup>
-
-                        <optgroup label="Jurusan Bisnis dan Komunikasi :">
                             <option>Akuntansi Perpajakan</option>
                             <option>Hubungan Masyarakat dan Komunikasi Digital</option>
                             <option>Bisnis Digital</option>
-                        </optgroup>
-
-                        <optgroup label="Jurusan Teknologi Industri :">
                             <option>Teknik Mesin</option>
                             <option>Teknik Listrik</option>
                             <option>Teknologi Rekayasa Mekatronika</option>
                             <option>Teknik Elektronika</option>
                             <option>Teknologi Rekayasa Sistem Elektronika</option>
                             <option>Teknologi Rekayasa Jaringan Telekomunikasi</option>
-                        </optgroup>
-
                     </select>
                 </div>
 
