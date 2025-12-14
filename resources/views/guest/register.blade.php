@@ -102,8 +102,6 @@
                             <option>Teknik Informatika</option>
                             <option>Sistem Informasi</option>
                             <option>Teknologi Rekayasa Komputer</option>
-                            <option>Teknologi Rekayasa Sistem Elektronika</option>
-                            <option>Teknologi Rekayasa Jaringan Telekomunikasi</option>
                             <option>Magister Terapan Teknik Komputer</option>
                         </optgroup>
 
@@ -115,8 +113,11 @@
 
                         <optgroup label="Jurusan Teknik">
                             <option>Teknik Mesin</option>
+                            <option>Teknik Listrik</option>
                             <option>Teknologi Rekayasa Mekatronika</option>
                             <option>Teknik Elektronika</option>
+                            <option>Teknologi Rekayasa Sistem Elektronika</option>
+                            <option>Teknologi Rekayasa Jaringan Telekomunikasi</option>
                         </optgroup>
 
                     </select>
@@ -148,7 +149,7 @@
     fieldGenerasi.style.display = 'none';
     fieldProdi.style.display = 'none';
 
-    tipePeserta.addEventListener('change', function () {
+    tipePeserta.addEventListener('change', function() {
         if (this.value === 'mahasiswa_pcr') {
             // Tampilkan field mahasiswa
             fieldGenerasi.style.display = 'block';

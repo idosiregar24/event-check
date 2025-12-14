@@ -48,8 +48,6 @@ class GuestController extends Controller
                     'Teknik Informatika',
                     'Sistem Informasi',
                     'Teknologi Rekayasa Komputer',
-                    'Teknologi Rekayasa Sistem Elektronika',
-                    'Teknologi Rekayasa Jaringan Telekomunikasi',
                     'Magister Terapan Teknik Komputer',
 
                     // Jurusan Bisnis & Komunikasi
@@ -59,8 +57,11 @@ class GuestController extends Controller
 
                     // Jurusan Teknik
                     'Teknik Mesin',
+                    'Teknik Listrik',
                     'Teknologi Rekayasa Mekatronika',
-                    'Teknik Elektronika'
+                    'Teknik Elektronika',
+                    'Teknologi Rekayasa Sistem Elektronika',
+                    'Teknologi Rekayasa Jaringan Telekomunikasi',
                 ])
             ],
 
