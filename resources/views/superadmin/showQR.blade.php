@@ -20,7 +20,7 @@
             </div>
 
             <a href="{{ route('superadmin.downloadQR', $id) }}" class="btn btn-success w-100">
-                ⤓ Download PNG
+                ⤓ Download SVG
             </a>
 
             <a href="{{ url()->previous() }}" class="btn btn-secondary w-100 mt-2">

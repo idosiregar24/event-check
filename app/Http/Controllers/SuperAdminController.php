@@ -120,15 +120,16 @@ class SuperAdminController extends Controller
     {
         $url = url('/register/' . $id);
 
-        $qr = QrCode::format('png')
+        $qr = QrCode::format('svg')
             ->size(500)
             ->errorCorrection('H')
             ->generate($url);
 
         return response($qr)
-            ->header('Content-Type', 'image/png')
-            ->header('Content-Disposition', 'attachment; filename="QR_Event_' . $id . '.png"');
+            ->header('Content-Type', 'image/svg+xml')
+            ->header('Content-Disposition', 'attachment; filename="QR_Event_' . $id . '.svg"');
     }
+
 
 
     // ===============================
