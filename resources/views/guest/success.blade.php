@@ -84,7 +84,7 @@
         <hr>
 
         <a href="{{ asset('documents/tata_ibadah.pdf') }}"
-           download="Tata-Ibadah.pdf"
+           download="tata-tertib-new.pdf"
            class="btn-download">
             ⤓ Unduh Tata Ibadah
         </a>
