@@ -53,6 +53,17 @@
                 Tanggal: {{ $event->tanggal }}
             </p>
 
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+
             <form action="{{ route('guest.store', ['event' => $event->id]) }}" method="POST">
                 @csrf
 
@@ -97,19 +108,19 @@
                     <label class="form-label required">Program Studi</label>
                     <select name="program_studi" id="program_studi" class="form-select">
                         <option value="" disabled selected>Pilih Program Studi</option>
-                            <option>Teknik Informatika</option>
-                            <option>Sistem Informasi</option>
-                            <option>Teknologi Rekayasa Komputer</option>
-                            <option>Magister Terapan Teknik Komputer</option>
-                            <option>Akuntansi Perpajakan</option>
-                            <option>Hubungan Masyarakat dan Komunikasi Digital</option>
-                            <option>Bisnis Digital</option>
-                            <option>Teknik Mesin</option>
-                            <option>Teknik Listrik</option>
-                            <option>Teknologi Rekayasa Mekatronika</option>
-                            <option>Teknik Elektronika</option>
-                            <option>Teknologi Rekayasa Sistem Elektronika</option>
-                            <option>Teknologi Rekayasa Jaringan Telekomunikasi</option>
+                        <option>Teknik Informatika</option>
+                        <option>Sistem Informasi</option>
+                        <option>Teknologi Rekayasa Komputer</option>
+                        <option>Magister Terapan Teknik Komputer</option>
+                        <option>Akuntansi Perpajakan</option>
+                        <option>Hubungan Masyarakat dan Komunikasi Digital</option>
+                        <option>Bisnis Digital</option>
+                        <option>Teknik Mesin</option>
+                        <option>Teknik Listrik</option>
+                        <option>Teknologi Rekayasa Mekatronika</option>
+                        <option>Teknik Elektronika</option>
+                        <option>Teknologi Rekayasa Sistem Elektronika</option>
+                        <option>Teknologi Rekayasa Jaringan Telekomunikasi</option>
                     </select>
                 </div>
 

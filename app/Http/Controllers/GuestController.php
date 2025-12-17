@@ -64,8 +64,9 @@ class GuestController extends Controller
                     'Teknologi Rekayasa Jaringan Telekomunikasi',
                 ])
             ],
-
             'instansi' => 'nullable|string|max:255',
+        ], [
+            'email.unique' => 'Email ini sudah terdaftar untuk event ini, silahkan gunakan email lain dan beritahukan kepada panitia.'
         ]);
 
 
